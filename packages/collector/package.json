@@ -1,0 +1,12 @@
+{
+  "name": "@mayacardio/collector",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@mayacardio/device-storage": "*",
+    "@mayacardio/shared": "*",
+    "pino": "^9.6.0"
+  }
+}
