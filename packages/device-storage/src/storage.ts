@@ -412,10 +412,18 @@ export class DeviceStorage {
 
       const cp1 = this.getCheckpoint(sessionId, 1);
       const cp2 = this.getCheckpoint(sessionId, 2);
-      const synced1 = Math.max(0, (cp1?.last_synced_index ?? -1) + 1);
-      const synced2 = Math.max(0, (cp2?.last_synced_index ?? -1) + 1);
-      const samplesSynced = synced1 + synced2;
-      const backlog = Math.max(0, saved - samplesSynced);
+      const lastSynced1 = cp1?.last_synced_index ?? -1;
+      const lastSynced2 = cp2?.last_synced_index ?? -1;
+
+      const backlogStmt = this.db.prepare(`
+        SELECT COUNT(*) as cnt FROM samples 
+        WHERE session_id = ? AND (
+          (sensor = 1 AND sample_index > ?) OR
+          (sensor = 2 AND sample_index > ?)
+        );
+      `);
+      const backlog = Number((backlogStmt.get(sessionId, lastSynced1, lastSynced2) as { cnt: number }).cnt);
+      const samplesSynced = Math.max(0, saved - backlog);
 
       return { samples_saved: saved, samples_synced: samplesSynced, backlog };
     }
@@ -423,10 +431,15 @@ export class DeviceStorage {
     const savedStmt = this.db.prepare('SELECT COUNT(*) as cnt FROM samples;');
     const saved = Number((savedStmt.get() as { cnt: number }).cnt);
 
-    const cpStmt = this.db.prepare('SELECT SUM(last_synced_index + 1) as total_synced FROM checkpoints;');
-    const syncedRow = cpStmt.get() as { total_synced: number | null };
-    const samplesSynced = Math.max(0, Number(syncedRow?.total_synced ?? 0));
-    const backlog = Math.max(0, saved - samplesSynced);
+    const cpStmt = this.db.prepare(`
+      SELECT 
+        (SELECT COUNT(*) FROM samples s 
+         JOIN checkpoints c ON s.session_id = c.session_id AND s.sensor = c.sensor 
+         WHERE s.sample_index > c.last_synced_index) as unsynced_count;
+    `);
+    const unsyncedRow = cpStmt.get() as { unsynced_count: number | null };
+    const backlog = Math.max(0, Number(unsyncedRow?.unsynced_count ?? 0));
+    const samplesSynced = Math.max(0, saved - backlog);
 
     return { samples_saved: saved, samples_synced: samplesSynced, backlog };
   }

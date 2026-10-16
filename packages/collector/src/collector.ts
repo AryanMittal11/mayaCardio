@@ -64,15 +64,11 @@ export class BiosignalCollector {
    * Executes one full poll cycle: Sensor 1 followed sequentially by Sensor 2
    */
   public async pollCycle(): Promise<void> {
-    if (!this.isRunning) return;
-
     try {
       await this.pollSensor(1);
     } catch (err) {
       this.logger.debug({ err: (err as Error).message }, 'Error polling sensor 1');
     }
-
-    if (!this.isRunning) return;
 
     try {
       await this.pollSensor(2);
@@ -80,7 +76,9 @@ export class BiosignalCollector {
       this.logger.debug({ err: (err as Error).message }, 'Error polling sensor 2');
     }
 
-    this.scheduleNextPoll(this.pollIntervalMs);
+    if (this.isRunning) {
+      this.scheduleNextPoll(this.pollIntervalMs);
+    }
   }
 
   /**
