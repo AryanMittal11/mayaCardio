@@ -1,5 +1,5 @@
 import { DeviceStorage } from '@mayacardio/device-storage';
-import { CloudApiClient } from '@mayacardio/sync';
+import { CloudApiClient, DeviceProcessor } from '@mayacardio/sync';
 import type { WindowResult } from '@mayacardio/shared';
 
 export interface ResultsCommandOptions {
@@ -21,7 +21,18 @@ export async function executeResults(options: ResultsCommandOptions): Promise<Wi
 
   let results = storage.getWindowResults(sessionId);
 
-  // If local results are empty, try cloud API if available
+  // If local results are empty, compute from local samples if available
+  if (results.length === 0) {
+    try {
+      const processor = new DeviceProcessor({ storage, sessionId });
+      processor.processCompletedWindows();
+      results = storage.getWindowResults(sessionId);
+    } catch {
+      // ignore
+    }
+  }
+
+  // If still empty, try cloud API if available
   if (results.length === 0) {
     const cloudUrl = options.cloudUrl ?? process.env.CLOUD_API_URL ?? 'http://127.0.0.1:8080';
     const apiKey = options.apiKey ?? process.env.CLOUD_API_KEY;

@@ -111,8 +111,8 @@ export function buildCloudServer(options?: CloudServerOptions): FastifyInstance 
           storage.getSamplesForRange(session_id, 2, winStart, winEnd),
         ]);
 
-        // Extended sensor 1 channel 2 samples for heart-rate calculation
-        const hrStart = Math.max(0, 400 * (w - 4));
+        // Extended sensor 1 channel 2 samples with preceding history and refractory pre-buffer
+        const hrStart = Math.max(0, 400 * (w - 4) - 1600);
         const hrEnd = 400 * (w + 1);
         const s1Ch2Range = await storage.getSamplesForRange(session_id, 1, hrStart, hrEnd);
 

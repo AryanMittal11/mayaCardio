@@ -111,9 +111,10 @@ export function calculateHeartRateForWindow(
       (p) => p >= intervalStart && p <= intervalEnd
     );
   } else {
-    // Scan peaks from beginning up to intervalEnd to respect previous peak refractory period
+    // Scan peaks with refractory pre-buffer (800 samples before intervalStart)
+    const scanStart = Math.max(HR_PREV_SAMPLES_REQUIRED, intervalStart - HR_PREV_SAMPLES_REQUIRED);
     let lastPeak: number | null = null;
-    for (let idx = HR_PREV_SAMPLES_REQUIRED; idx <= intervalEnd; idx++) {
+    for (let idx = scanStart; idx <= intervalEnd; idx++) {
       if (isPeak(idx, samples, lastPeak)) {
         lastPeak = idx;
         if (idx >= intervalStart && idx <= intervalEnd) {

@@ -64,6 +64,7 @@ describe('Cloud API Service (§2.2, §4 #4, §4 #6, §5)', () => {
       values: [300, 400],
     }));
 
+    const tStart = Date.now();
     const res = await server.inject({
       method: 'POST',
       url: '/api/v1/sync/batch',
@@ -82,8 +83,10 @@ describe('Cloud API Service (§2.2, §4 #4, §4 #6, §5)', () => {
         ],
       },
     });
+    const elapsedMs = Date.now() - tStart;
 
     expect(res.statusCode).toBe(200);
+    expect(elapsedMs).toBeLessThan(5000); // Strict online SLA: within 5000 ms
     const body = res.json();
     expect(body.success).toBe(true);
     expect(body.inserted_samples).toBe(800);

@@ -46,7 +46,8 @@ export class DeviceProcessor {
       const s1Map = this.storage.getSamplesRange(this.sessionId, 1, winStart, winEnd);
       const s2Map = this.storage.getSamplesRange(this.sessionId, 2, winStart, winEnd);
 
-      const hrStart = Math.max(0, 400 * (w - 4));
+      // Extended range including preceding 800-sample history and refractory pre-buffer
+      const hrStart = Math.max(0, 400 * (w - 4) - 1600);
       const hrEnd = 400 * (w + 1);
       const s1Ch2Range = this.storage.getSamplesRange(this.sessionId, 1, hrStart, hrEnd);
 

@@ -130,6 +130,30 @@ describe('Shared Signal Processing Engine (§3)', () => {
       const hr = detector.calculateForWindow(4, accessor);
       expect(hr).toBe(60.0);
     });
+
+    it('calculates heart rate accurately for window w >= 5 without precomputed peaks (BUG-01 regression)', () => {
+      // Window 6 covers interval [400*(6-4), 400*(6+1)-1] = [800, 2799]
+      // Needs samples from at least [800 - 800, 2800] = [0, 2800]
+      const sampleMap = new Map<number, number>();
+      for (let i = 0; i <= 3000; i++) {
+        sampleMap.set(i, 100);
+      }
+      // Place peaks at 800, 1200, 1600, 2000, 2400 (400 samples gap = 60 bpm)
+      sampleMap.set(800, 500);
+      sampleMap.set(1200, 500);
+      sampleMap.set(1600, 500);
+      sampleMap.set(2000, 500);
+      sampleMap.set(2400, 500);
+
+      const accessor = {
+        has: (idx: number) => sampleMap.has(idx),
+        get: (idx: number) => sampleMap.get(idx),
+      };
+
+      // Calling directly without precomputed peaks should scan and find peaks in [800, 2799]
+      const hr = calculateHeartRateForWindow(6, accessor);
+      expect(hr).toBe(60.0);
+    });
   });
 
   describe('Full Window Processing Contract', () => {

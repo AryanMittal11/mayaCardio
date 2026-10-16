@@ -165,4 +165,24 @@ describe('Required CLI Commands (§4)', () => {
       process.stdout.write = originalWrite;
     }
   });
+
+  it('pipeline results computes completed windows on-demand if not pre-saved (RISK-03 regression)', async () => {
+    const rawSession = 'cli_raw_session_ondemand';
+    storage.ensureSession(rawSession);
+    const s1 = Array.from({ length: 400 }, () => [100, 200, 300]);
+    const s2 = Array.from({ length: 400 }, () => [300, 400]);
+    storage.insertSamplesAtomic(rawSession, 1, 0, s1);
+    storage.insertSamplesAtomic(rawSession, 2, 0, s2);
+
+    // Note: NOT calling saveWindowResult - storage.getWindowResults will initially be empty
+    const results = await executeResults({
+      session: rawSession,
+      dbPath: testDbPath,
+    });
+
+    expect(results.length).toBe(1);
+    expect(results[0]!.window).toBe(0);
+    expect(results[0]!.complete).toBe(true);
+    expect(results[0]!.magnitude).toBe(500.0);
+  });
 });
