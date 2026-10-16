@@ -1,0 +1,15 @@
+{
+  "name": "@mayacardio/mock-service",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "bin": {
+    "biosignal-mock": "./src/mock-bin.ts",
+    "check_ground_truth": "./src/ground-truth-bin.ts"
+  },
+  "dependencies": {
+    "@mayacardio/shared": "*",
+    "commander": "^12.1.0"
+  }
+}

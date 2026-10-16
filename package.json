@@ -1,0 +1,41 @@
+{
+  "name": "mayacardio",
+  "version": "1.0.0",
+  "description": "Never Lose a Heartbeat — High-resilience bedside biosignal edge-to-cloud data pipeline",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "pipeline": "tsx packages/cli/src/bin.ts",
+    "mock:signal": "tsx packages/mock-service/src/mock-bin.ts --mode signal --seed 7 --duration 3600 --port 7100",
+    "mock:ramp": "tsx packages/mock-service/src/mock-bin.ts --mode ramp --seed 7 --duration 3600 --port 7100",
+    "cloud": "tsx packages/cloud-api/src/server.ts",
+    "device": "tsx packages/cli/src/device-daemon.ts"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.2",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.7",
+    "fastify": "^5.2.0",
+    "pg": "^8.13.1",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "zod": "^3.24.1"
+  },
+  "optionalDependencies": {
+    "better-sqlite3": "^11.8.1"
+  }
+}
