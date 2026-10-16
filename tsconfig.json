@@ -25,7 +25,19 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@mayacardio/shared": ["packages/shared/src/index.ts"],
+      "@mayacardio/processing": ["packages/processing/src/index.ts"],
+      "@mayacardio/device-storage": ["packages/device-storage/src/index.ts"],
+      "@mayacardio/mock-service": ["packages/mock-service/src/index.ts"],
+      "@mayacardio/collector": ["packages/collector/src/index.ts"],
+      "@mayacardio/cloud-api": ["packages/cloud-api/src/index.ts"],
+      "@mayacardio/state-machine": ["packages/state-machine/src/index.ts"],
+      "@mayacardio/sync": ["packages/sync/src/index.ts"],
+      "@mayacardio/cli": ["packages/cli/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }
