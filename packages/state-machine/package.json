@@ -1,0 +1,11 @@
+{
+  "name": "@mayacardio/state-machine",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@mayacardio/shared": "*",
+    "pino": "^9.6.0"
+  }
+}

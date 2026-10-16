@@ -1,0 +1,14 @@
+{
+  "name": "@mayacardio/sync",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@mayacardio/device-storage": "*",
+    "@mayacardio/processing": "*",
+    "@mayacardio/shared": "*",
+    "@mayacardio/state-machine": "*",
+    "pino": "^9.6.0"
+  }
+}
