@@ -207,6 +207,4 @@ All assessment deliverables are organized within the repository:
 4. **[Failure Test Execution Evidence](docs/failure-test-evidence.md)**: Detailed test logs and results for all failure injection scenarios.
 5. **[ARM64 Resource Report](docs/arm64-resource-report.md)**: Resource benchmark measurements on ARM64 (CPU, RSS memory, disk written, network traffic).
 6. **[Free Cloud Deployment Guide](docs/cloud-deployment.md)**: Step-by-step instructions for deploying to free cloud tiers (Render, Fly.io, Supabase).
-7. **[Demo Video Script & Recording Plan](docs/demo-script-and-video-plan.md)**: 5-minute video demonstration plan for network cut, process kill, and power cut.
-8. **[AI Tools Disclosure](docs/ai-disclosure.md)**: Full transparent disclosure of AI tools utilized during development.
-9. **[Implementation Progress Tracker](docs/implementation-progress.md)**: Milestone tracking and phase verification logs.
+7. **[AI Tools Disclosure](docs/ai-disclosure.md)**: Full transparent disclosure of AI tools utilized during development.
