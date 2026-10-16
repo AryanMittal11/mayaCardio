@@ -25,8 +25,8 @@ describe('Required CLI Commands (§4)', () => {
     storage.ensureSession(sessionId);
 
     // Insert samples: 400 for sensor 1, 400 for sensor 2
-    const s1 = Array.from({ length: 400 }, (_, i) => [720, 1200, 1560]);
-    const s2 = Array.from({ length: 400 }, (_, i) => [400000, 150000]);
+    const s1 = Array.from({ length: 400 }, () => [720, 1200, 1560]);
+    const s2 = Array.from({ length: 400 }, () => [400000, 150000]);
     storage.insertSamplesAtomic(sessionId, 1, 0, s1);
     storage.insertSamplesAtomic(sessionId, 2, 0, s2);
 

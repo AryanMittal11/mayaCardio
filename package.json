@@ -16,7 +16,9 @@
     "mock:signal": "tsx packages/mock-service/src/mock-bin.ts --mode signal --seed 7 --duration 3600 --port 7100",
     "mock:ramp": "tsx packages/mock-service/src/mock-bin.ts --mode ramp --seed 7 --duration 3600 --port 7100",
     "cloud": "tsx packages/cloud-api/src/server.ts",
-    "device": "tsx packages/cli/src/device-daemon.ts"
+    "device": "tsx packages/cli/src/device-daemon.ts",
+    "check-ground-truth": "tsx packages/mock-service/src/ground-truth-bin.ts",
+    "benchmark": "tsx scripts/benchmark-arm64.ts"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",

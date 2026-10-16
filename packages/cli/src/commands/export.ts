@@ -1,4 +1,3 @@
-import readline from 'node:readline';
 import { DeviceStorage } from '@mayacardio/device-storage';
 import { CloudApiClient } from '@mayacardio/sync';
 

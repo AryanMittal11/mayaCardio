@@ -1,4 +1,3 @@
-import { pino } from 'pino';
 import { DeviceStorage } from '@mayacardio/device-storage';
 import { processWindow } from '@mayacardio/processing';
 
@@ -10,7 +9,6 @@ export interface DeviceProcessorOptions {
 export class DeviceProcessor {
   private storage: DeviceStorage;
   private sessionId: string;
-  private logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 
   constructor(options: DeviceProcessorOptions) {
     this.storage = options.storage;

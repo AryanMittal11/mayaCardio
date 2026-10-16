@@ -74,8 +74,8 @@ describe('Automatic Mode Switching, Offline Processing, and Catch-Up (§2.3, §2
     deviceStorage.ensureSession(sessionId);
 
     // Insert 800 samples for both sensors (2 complete windows: 0 and 1)
-    const s1Samples = Array.from({ length: 800 }, (_, i) => [100, 200, 300]);
-    const s2Samples = Array.from({ length: 800 }, (_, i) => [400, 500]);
+    const s1Samples = Array.from({ length: 800 }, () => [100, 200, 300]);
+    const s2Samples = Array.from({ length: 800 }, () => [400, 500]);
 
     deviceStorage.insertSamplesAtomic(sessionId, 1, 0, s1Samples);
     deviceStorage.insertSamplesAtomic(sessionId, 2, 0, s2Samples);

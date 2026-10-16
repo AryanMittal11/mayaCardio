@@ -30,6 +30,14 @@ export class BiosignalGenerator {
     this.rng = createRng(seed);
   }
 
+  public getSeed(): number {
+    return this.seed;
+  }
+
+  public getRng(): () => number {
+    return this.rng;
+  }
+
   /**
    * Generates sample at index `i` for Sensor 1: [ch1, ch2, ch3]
    * Ramp mode: Sensor 1 channel c at sample i = (3i + c) mod 8,388,608. (c in 1..3)
@@ -47,14 +55,11 @@ export class BiosignalGenerator {
     const second = i / SAMPLE_RATE;
     const minuteInCycle = (second / 60) % 6;
 
-    let targetBpm = 60;
     let beatIntervalSamples = 400; // 60 bpm = 1 beat/sec = 400 samples
 
     if (minuteInCycle >= 2 && minuteInCycle < 4) {
-      targetBpm = 90;
       beatIntervalSamples = Math.round((60 * SAMPLE_RATE) / 90); // ~267 samples
     } else if (minuteInCycle >= 4) {
-      targetBpm = 72;
       beatIntervalSamples = Math.round((60 * SAMPLE_RATE) / 72); // ~333 samples
     }
 

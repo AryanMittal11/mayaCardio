@@ -47,7 +47,7 @@ describe('Comprehensive Failure-Injection & Ground-Truth Verification (§4, §6.
     cloudServer = buildCloudServer({ port: cloudPort, apiKey, storage: cloudStorage });
     
     // Outage simulation hook
-    cloudServer.addHook('onRequest', async (req, reply) => {
+    cloudServer.addHook('onRequest', async (_req, reply) => {
       if (!networkHealthy) {
         return reply.status(503).send({ error: 'simulated_network_cut' });
       }
@@ -202,9 +202,9 @@ describe('Comprehensive Failure-Injection & Ground-Truth Verification (§4, §6.
     expect(stateMachine.getState()).toBe('offline');
 
     // While OFFLINE, device continues collecting and persisting safely
-    const offlineSamples = Array.from({ length: 400 }, (_, i) => [100, 200, 300]);
+    const offlineSamples = Array.from({ length: 400 }, () => [100, 200, 300]);
     storage.insertSamplesAtomic(sessionId, 1, 0, offlineSamples);
-    storage.insertSamplesAtomic(sessionId, 2, 0, offlineSamples.map(([a, b]) => [a, b]));
+    storage.insertSamplesAtomic(sessionId, 2, 0, offlineSamples.map(([a, b]) => [a ?? 0, b ?? 0]));
 
     const statsOffline = storage.getStats(sessionId);
     expect(statsOffline.samples_saved).toBe(800);

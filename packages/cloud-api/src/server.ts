@@ -1,5 +1,4 @@
 import fastify, { type FastifyInstance } from 'fastify';
-import { pino } from 'pino';
 import {
   SyncBatchRequestSchema,
   type WindowResult,
@@ -17,7 +16,6 @@ export interface CloudServerOptions {
 }
 
 export function buildCloudServer(options?: CloudServerOptions): FastifyInstance {
-  const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
   const server = fastify({ logger: false });
 
   const apiKey = options?.apiKey ?? process.env.CLOUD_API_KEY ?? 'mayacardio-edge-secret-token-2026';

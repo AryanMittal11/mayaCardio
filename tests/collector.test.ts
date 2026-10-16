@@ -77,7 +77,7 @@ describe('Collector Integration and Protocol Tests (§2.1, §6)', () => {
     mockServer.faults.corruptNextCrc = true;
 
     // Polling sensor 1 should reject the corrupt reply
-    const res = await collector.pollSensor(1);
+    await collector.pollSensor(1);
 
     // If reread failed or was rejected, checkpoint does not advance with corrupt data
     const cpAfter = storage.getCheckpoint(sessionId, 1)!.last_received_index;

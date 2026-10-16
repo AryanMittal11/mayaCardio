@@ -1,6 +1,5 @@
 import net from 'node:net';
 import type { SensorId, MockReadReply } from '@mayacardio/shared';
-import { validateMessageCrc } from './crc-validator.js';
 
 export interface TcpClientOptions {
   host?: string;

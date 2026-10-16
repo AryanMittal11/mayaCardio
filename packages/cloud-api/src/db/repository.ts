@@ -139,7 +139,7 @@ export class MemoryCloudStorage implements ICloudStorage {
     let maxIdx = -1;
     const indices: number[] = [];
 
-    for (const [key, sample] of this.samples.entries()) {
+    for (const sample of this.samples.values()) {
       if (sample.session_id === sessionId && sample.sensor === sensor) {
         total++;
         indices.push(sample.index);
